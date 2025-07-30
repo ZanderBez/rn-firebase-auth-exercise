@@ -1,17 +1,19 @@
 import { TextInput, SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
+import { loginUser } from '../services/authService';
 
-const LoginScreen = () => {
+export default function LoginScreen({ navigation }: any) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  //   TODO: Login Function
-  const login = () => {}
+  //Login Function
+  const login = () => {
+    loginUser(email, password)
+  }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.innerContainer}>
         <Text style={styles.title}>Login</Text>
 
         <TextInput
@@ -19,7 +21,9 @@ const LoginScreen = () => {
             placeholder="Your Email"
             onChangeText={newText => setEmail(newText)}
             defaultValue={email}
-            />
+            keyboardType="email-address"
+            autoCapitalize="none"
+        />
 
         <TextInput
             style={styles.inputField}
@@ -27,44 +31,67 @@ const LoginScreen = () => {
             onChangeText={newText => setPassword(newText)}
             defaultValue={password}
             secureTextEntry={true}
-            />
+        />
 
         <TouchableOpacity style={styles.button} onPress={login}>
-            <Text style={styles.buttonText}>Login Button</Text>
+            <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
-        {/* TODO: Add Register Navigation */}
-
-      </View>  
-      
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={styles.linkText}>Don't have an account? Register here</Text>
+        </TouchableOpacity>
+      </View>        
     </SafeAreaView>
   )
 }
 
-export default LoginScreen
-
 const styles = StyleSheet.create({
     container: {
-        padding: 20
+        flex: 1,
+        backgroundColor: 'white'
+    },
+    innerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: 25,
     },
     title: {
-        fontSize: 30
+        fontSize: 28,
+        fontWeight: "600",
+        marginBottom: 30,
+        textAlign: "center",
     },
     inputField: {
-        height: 40,
+        height: 50,
         borderWidth: 1,
-        borderColor: 'black',
-        marginTop: 15,
-        paddingHorizontal: 10,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        marginBottom: 15,
+        paddingHorizontal: 12,
+        fontSize: 16,
+        backgroundColor: "#F9F9F9",
     },
     button: {
-        backgroundColor: "black",
-        textAlign: 'center',
-        padding: 10,
-        marginTop: 30
+        backgroundColor: "#007AFF",
+        paddingVertical: 14,
+        borderRadius: 8,
+        alignItems: "center",
+        marginTop: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 3,
     },
     buttonText: {
-        textAlign: 'center',
-        color: 'white'
-    }
+        color: "white",
+        fontSize: 16,
+        fontWeight: "500",
+    },
+    linkText: { 
+        color: "#007AFF", 
+        textAlign: "center", 
+        marginTop: 20,
+        fontSize: 14,
+    },
 })

@@ -1,27 +1,58 @@
-import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native'
 import React from 'react'
+import { logoutUser, getUserInfo } from '../services/authService'
 
 const ProfileScreen = () => {
 
-    // TODO: handle logout
-    const handleLogout = () => {}
+    const handleLogout = () => { 
+        logoutUser() 
+    }
 
     return (
-        <SafeAreaView>
-            <View style={{padding:20}}>
-                <Text>Profile</Text>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.content}>
+                <Text style={styles.title}>Profile</Text>
+                <Text style={styles.userInfo}>{getUserInfo()?.email}</Text>
+                <Text style={styles.userInfo}>{getUserInfo()?.uid}</Text>
 
-                {/* TODO: Show logged in user info */}
-                <Text>Email here</Text>
-                <Text>Username here</Text>
-
-                <Button 
-                    title="Sign Out"
-                    color="green"
-                    onPress={handleLogout} />
+                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                    <Text style={styles.logoutText}>Sign Out</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        justifyContent: "center"
+    },
+    content: {
+        padding: 20,
+        alignItems: "center"
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: "600",
+        marginBottom: 20
+    },
+    userInfo: {
+        fontSize: 16,
+        marginBottom: 10
+    },
+    logoutButton: {
+        backgroundColor: "black",
+        paddingVertical: 12,
+        paddingHorizontal: 30,
+        marginTop: 30
+    },
+    logoutText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "500"
+    }
+})
 
 export default ProfileScreen
